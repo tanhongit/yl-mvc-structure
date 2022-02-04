@@ -2,7 +2,7 @@
 
 class Controller
 {
-    const VIEW_PATH = 'app/Views';
+    const VIEW_PATH = 'app/views';
 
     /**
      * index
@@ -15,10 +15,16 @@ class Controller
     /**
      * Path name - get after View folder
      * @param $viewPath
+     * @param array $data
      */
-    protected function view($viewPath)
+    protected function view($viewPath, array $data = [])
     {
-        $viewPath = self::VIEW_PATH . '/' . str_replace('.', '/', $viewPath) . '.php';
-        return require $viewPath;
+        //get data
+        foreach ($data as $key => $value) {
+            $$key = $value;
+        }
+
+        $viewPathFile = self::VIEW_PATH . '/' . str_replace('.', '/', $viewPath) . '.php';
+        require $viewPathFile;
     }
 }

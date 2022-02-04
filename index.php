@@ -1,6 +1,6 @@
 <?php
 spl_autoload_register(function ($className) {
-    require './app/Controllers/' . $className . '.php';
+    require './app/controllers/' . $className . '.php';
 });
 
 //Controller
