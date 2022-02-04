@@ -2,8 +2,15 @@
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->loadModel('CategoryModel');
+    }
+
     public function index()
     {
+        $categoryModel = new CategoryModel;
+
         $categories = array(
             1 => 'product 1',
             2 => 'product 2',
@@ -11,7 +18,7 @@ class CategoryController extends Controller
             4 => 'product 4',
             5 => 'product 5',
         );
-        
+
         $this->view('frontend.categories.index', array(
             'categories' => $categories,
         ));

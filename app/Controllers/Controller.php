@@ -3,7 +3,7 @@
 class Controller
 {
     const VIEW_PATH = 'app/views';
-
+    const MODEL_PATH = 'app/models';
     /**
      * index
      */
@@ -26,5 +26,11 @@ class Controller
 
         $viewPathFile = self::VIEW_PATH . '/' . str_replace('.', '/', $viewPath) . '.php';
         require $viewPathFile;
+    }
+
+    protected function loadModel($modelPath)
+    {
+        $modelPathFile = self::MODEL_PATH . '/' . str_replace('.', '/', $modelPath) . '.php';
+        require $modelPathFile;
     }
 }
