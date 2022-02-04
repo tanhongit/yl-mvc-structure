@@ -5,12 +5,11 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->loadModel('CategoryModel');
+        $this->categoryModel = new CategoryModel;
     }
 
     public function index()
     {
-        $categoryModel = new CategoryModel;
-
         $categories = array(
             1 => 'product 1',
             2 => 'product 2',

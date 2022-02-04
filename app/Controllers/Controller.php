@@ -28,6 +28,9 @@ class Controller
         require $viewPathFile;
     }
 
+    /**
+     * @param $modelPath
+     */
     protected function loadModel($modelPath)
     {
         $modelPathFile = self::MODEL_PATH . '/' . str_replace('.', '/', $modelPath) . '.php';

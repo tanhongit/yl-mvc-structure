@@ -5,6 +5,7 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->loadModel('ProductModel');
+        $this->productModel = new ProductModel;
     }
 
     public function index()
@@ -20,5 +21,6 @@ class ProductController extends Controller
     public function show()
     {
         $this->view('frontend.products.show');
+        echo '<br>' . $this->productModel->getAll();
     }
 }
