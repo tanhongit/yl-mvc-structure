@@ -1,6 +1,6 @@
 <?php
 
-class AppController
+class AppController extends Controller
 {
     public function index()
     {

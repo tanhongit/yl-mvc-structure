@@ -1,10 +1,10 @@
 <?php
 
-class ProductController
+class ProductController extends Controller
 {
     public function index()
     {
-        echo __METHOD__;
+        $this->view('frontend.products.index');
     }
 
     public function run()

@@ -1,4 +1,7 @@
 <?php
+spl_autoload_register(function ($className) {
+    require './app/Controllers/' . $className . '.php';
+});
 
 //Controller
 if (isset($_REQUEST['controller']) && '' != $_REQUEST['controller']) {
