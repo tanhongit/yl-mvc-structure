@@ -1,0 +1,18 @@
+<?php
+
+//Controller
+if (isset($_REQUEST['controller']) && '' != $_REQUEST['controller']) {
+    $controllerParam = strtolower($_REQUEST['controller']);
+}
+$controllerName =  ucfirst(($controllerParam ?? '') . 'Controller');
+require "./app/controllers/${controllerName}.php";
+
+//Action
+if (isset($_REQUEST['action']) && '' != $_REQUEST['action']) {
+    $actionParam = strtolower($_REQUEST['action']);
+}
+$actionName = $actionParam ?? 'index';
+
+//Run
+$controllerObject = new $controllerName;
+$controllerObject->$actionName();
