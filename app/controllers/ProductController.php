@@ -18,10 +18,15 @@ class ProductController extends Controller
         echo __METHOD__;
     }
 
+    public function all()
+    {
+        $this->renderView('frontend.products.all');
+        var_dump($this->productModel->all(ProductModel::TABLE));
+    }
+
     public function show()
     {
         $this->renderView('frontend.products.show');
-        echo '<br>' . $this->productModel->getAll();
-        echo getenv('RFGRGHISR_RFG');
+        var_dump($this->productModel->find(ProductModel::TABLE, 1));
     }
 }

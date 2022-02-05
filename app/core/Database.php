@@ -2,9 +2,17 @@
 
 class Database
 {
-    private $connection = NULL;
+    protected $connection = NULL;
 
     public function __construct()
+    {
+    }
+
+    /**
+     * Connection database
+     * @return mysqli|null
+     */
+    public function connect()
     {
         // Create connection
         if (!$this->connection) {
@@ -13,4 +21,64 @@ class Database
         }
         return $this->connection;
     }
+
+    /**
+     * Execute the query and process the returned results
+     * @param $sql
+     * @return mixed
+     */
+    public function select($sql)
+    {
+        $items = array();
+        $sql->execute();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items;
+    }
+
+    /**
+     * Get the data in the table according to the arbitrary request of option
+     * @param $table
+     * @param array $options
+     * @return array|void
+     */
+    public function getByOptions($table, $options = array())
+    {
+        $select = isset($options['select']) ? $options['select'] : '*';
+        $where = isset($options['where']) ? 'WHERE ' . $options['where'] : '';
+        $order_by = isset($options['order_by']) ? 'ORDER BY ' . $options['order_by'] : '';
+        $limit = isset($options['offset']) && isset($options['limit']) ? 'LIMIT ' . $options['offset'] . ',' . $options['limit'] : '';
+        $sql = "SELECT $select FROM `$table` $where $order_by $limit";
+        $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
+        $data = array();
+        if (mysqli_num_rows($query) > 0) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $data[] = $row;
+            }
+            mysqli_free_result($query);
+        }
+        return $data;
+    }
+
+
+    /**
+     * Get data in table by id
+     * @param $table
+     * @param $id
+     * @param string $select
+     * @return array|false|string[]|void|null
+     */
+    function getRecordByID($table, $id, $select = '*')
+    {
+        $id = intval($id);
+        $sql = "SELECT $select FROM `$table` WHERE id=$id";
+        $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
+        $data = NULL;
+        if (mysqli_num_rows($query) > 0) {
+            $data = mysqli_fetch_assoc($query);
+            mysqli_free_result($query);
+        }
+        return $data;
+    }
+
+
 }
