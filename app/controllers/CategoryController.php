@@ -2,6 +2,8 @@
 
 class CategoryController extends Controller
 {
+    private $categoryModel;
+
     public function __construct()
     {
         $this->loadModel('CategoryModel');

@@ -6,7 +6,7 @@ class ProductModel extends BaseModel
 
     public function getAll()
     {
-        return $this->all(ProductModel::TABLE);
+        return $this->all(self::TABLE);
     }
 
     public function findByID($id)

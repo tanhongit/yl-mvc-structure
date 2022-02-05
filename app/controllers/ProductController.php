@@ -2,6 +2,8 @@
 
 class ProductController extends Controller
 {
+    private $productModel;
+
     public function __construct()
     {
         $this->loadModel('ProductModel');
@@ -26,7 +28,8 @@ class ProductController extends Controller
 
     public function show()
     {
+        $id = $_GET['id'];
         $this->renderView('frontend.products.show');
-        var_dump($this->productModel->find(ProductModel::TABLE, 1));
+        var_dump($this->productModel->find(ProductModel::TABLE, $id));
     }
 }

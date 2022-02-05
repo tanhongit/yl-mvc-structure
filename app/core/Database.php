@@ -59,7 +59,6 @@ class Database
         return $data;
     }
 
-
     /**
      * Get data in table by id
      * @param $table
