@@ -1,5 +1,19 @@
 <?php
+
+//require all PHP files from a directory
+$folderList = array(
+    './config/',
+    './app/core/',
+    './lib/',
+);
+foreach ($folderList as $folder) {
+    foreach (glob($folder . "*.php") as $filename) {
+        require $filename;
+    }
+}
+
 require './app/models/BaseModel.php';
+
 spl_autoload_register(function ($className) {
     require './app/controllers/' . $className . '.php';
 });
@@ -8,7 +22,7 @@ spl_autoload_register(function ($className) {
 if (isset($_REQUEST['controller']) && '' != $_REQUEST['controller']) {
     $controllerParam = strtolower($_REQUEST['controller']);
 }
-$controllerName =  ucfirst(($controllerParam ?? '') . 'Controller');
+$controllerName = ucfirst(($controllerParam ?? '') . 'Controller');
 require "./app/controllers/${controllerName}.php";
 
 //Action
