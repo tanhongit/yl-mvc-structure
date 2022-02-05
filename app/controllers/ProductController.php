@@ -10,7 +10,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $this->view('frontend.products.index');
+        $this->renderView('frontend.products.index');
     }
 
     public function run()
@@ -20,7 +20,8 @@ class ProductController extends Controller
 
     public function show()
     {
-        $this->view('frontend.products.show');
+        $this->renderView('frontend.products.show');
         echo '<br>' . $this->productModel->getAll();
+        echo getenv('RFGRGHISR_RFG');
     }
 }

@@ -9,7 +9,7 @@ class Controller
      */
     public function index()
     {
-        self::view('frontend.index');
+        self::renderView('frontend.index');
     }
 
     /**
@@ -17,7 +17,7 @@ class Controller
      * @param $viewPath
      * @param array $data
      */
-    protected function view($viewPath, array $data = [])
+    protected function renderView($viewPath, array $data = [])
     {
         //get data
         foreach ($data as $key => $value) {

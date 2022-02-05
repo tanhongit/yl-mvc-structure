@@ -1,4 +1,5 @@
 <?php
+require './app/models/BaseModel.php';
 spl_autoload_register(function ($className) {
     require './app/controllers/' . $className . '.php';
 });

@@ -18,7 +18,7 @@ class CategoryController extends Controller
             5 => 'product 5',
         );
 
-        $this->view('frontend.categories.index', array(
+        $this->renderView('frontend.categories.index', array(
             'categories' => $categories,
         ));
     }

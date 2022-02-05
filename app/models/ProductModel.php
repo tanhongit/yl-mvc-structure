@@ -1,6 +1,6 @@
 <?php
 
-class ProductModel
+class ProductModel extends BaseModel
 {
     const TABLE = 'products';
 
