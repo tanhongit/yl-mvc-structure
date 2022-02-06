@@ -102,4 +102,15 @@ class Database
         $id = ($id > 0) ? $id : mysqli_insert_id($this->connectResult);
         return $id;
     }
+
+    /**
+     * Delete data from table by ID
+     * @param $table
+     * @param $id
+     */
+    public function destroy($table, $id)
+    {
+        $sql = "DELETE FROM `$table` WHERE id=$id";
+        $this->_query($sql) or die(mysqli_error($this->connectResult));
+    }
 }

@@ -16,7 +16,7 @@ class ProductModel extends BaseModel
 
     public function deleteByID($id)
     {
-        return __METHOD__;
+        return $this->delete(self::TABLE, $id);
     }
 
     public function store($data)

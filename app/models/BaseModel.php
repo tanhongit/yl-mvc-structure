@@ -29,12 +29,17 @@ class BaseModel extends Database
      */
     public function update($table, $data)
     {
-        return $this->save($table, $data);;
+        return $this->save($table, $data);
     }
 
-    public function delete()
+    /**
+     * Delete data from table by ID
+     * @param $table
+     * @param $id
+     */
+    public function delete($table, $id)
     {
-        return __METHOD__;
+        return $this->destroy($table, $id);
     }
 
     /**

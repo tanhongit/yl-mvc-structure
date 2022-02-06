@@ -61,4 +61,9 @@ class ProductController extends Controller
             'data' => $data,
         ));
     }
+
+    public function delete()
+    {
+        $this->productModel->deleteByID(6);
+    }
 }
