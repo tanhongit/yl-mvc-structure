@@ -79,5 +79,27 @@ class Database
         return $data;
     }
 
-
+    /**
+     * Save data to table (insert, update)
+     * @param $table
+     * @param array $data
+     * @return int|string|void
+     */
+    function save($table, $data = array())
+    {
+        $values = array();
+        foreach ($data as $key => $value) {
+            $value = mysqli_real_escape_string($this->connectResult, $value);
+            $values[] = "`$key`='$value'";
+        }
+        $id = intval($data['id']);
+        if ($id > 0) {
+            $sql = "UPDATE `$table` SET " . implode(',', $values) . " WHERE id=$id";
+        } else {
+            $sql = "INSERT INTO `$table` SET " . implode(',', $values);
+        }
+        $this->_query($sql) or die(mysqli_error($this->connectResult));
+        $id = ($id > 0) ? $id : mysqli_insert_id($this->connectResult);
+        return $id;
+    }
 }

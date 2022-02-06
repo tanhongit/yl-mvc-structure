@@ -23,13 +23,27 @@ class ProductController extends Controller
     public function all()
     {
         $this->renderView('frontend.products.all');
-        var_dump($this->productModel->all(ProductModel::TABLE));
+        var_dump($this->productModel->getAll());
     }
 
     public function show()
     {
-        $id = $_GET['id'];
+        $id = $_GET['id'] ?? 0;
         $this->renderView('frontend.products.show');
-        var_dump($this->productModel->find(ProductModel::TABLE, $id));
+        var_dump($this->productModel->findByID($id));
+    }
+
+    public function store()
+    {
+        $data = array(
+            'name' => 'product 1',
+            'description' => 'product 1',
+            'price' => 10
+        );
+        $this->productModel->store($data);
+
+        $this->renderView('frontend.products.store', array(
+            'data' => $data,
+        ));
     }
 }

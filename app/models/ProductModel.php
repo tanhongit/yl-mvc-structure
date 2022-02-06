@@ -11,11 +11,16 @@ class ProductModel extends BaseModel
 
     public function findByID($id)
     {
-        return __METHOD__;
+        return $this->find(self::TABLE, $id);
     }
 
     public function deleteByID($id)
     {
         return __METHOD__;
+    }
+
+    public function store($data)
+    {
+        $this->create(self::TABLE, $data);
     }
 }

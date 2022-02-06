@@ -9,9 +9,16 @@ class BaseModel extends Database
         $this->connectResult = $this->connect();
     }
 
-    public function store()
+    /**
+     * Create new data to table
+     * @param $table
+     * @param $data
+     * @return int|string|void
+     */
+    public function create($table, $data)
     {
-        return __METHOD__;
+        $data['id'] = 0;
+        return $this->save($table, $data);
     }
 
     public function update()

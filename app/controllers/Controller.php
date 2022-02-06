@@ -4,6 +4,7 @@ class Controller
 {
     const VIEW_PATH = 'app/views';
     const MODEL_PATH = 'app/models';
+
     /**
      * index
      */
