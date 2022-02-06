@@ -66,7 +66,7 @@ class Database
      * @param string $select
      * @return array|false|string[]|void|null
      */
-    function getRecordByID($table, $id, $select = '*')
+    public function getRecordByID($table, $id, $select = '*')
     {
         $id = intval($id);
         $sql = "SELECT $select FROM `$table` WHERE id=$id";
@@ -85,7 +85,7 @@ class Database
      * @param array $data
      * @return int|string|void
      */
-    function save($table, $data = array())
+    public function save($table, $data = array())
     {
         $values = array();
         foreach ($data as $key => $value) {

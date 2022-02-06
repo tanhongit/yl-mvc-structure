@@ -23,4 +23,9 @@ class ProductModel extends BaseModel
     {
         $this->create(self::TABLE, $data);
     }
+
+    public function updateData($data)
+    {
+        $this->update(self::TABLE, $data);
+    }
 }

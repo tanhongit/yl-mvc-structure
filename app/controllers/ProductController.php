@@ -46,4 +46,19 @@ class ProductController extends Controller
             'data' => $data,
         ));
     }
+
+    public function update()
+    {
+        $data = array(
+            'id' => 2,
+            'name' => 'product 2',
+            'description' => 'product 2',
+            'price' => 10
+        );
+        $this->productModel->updateData($data);
+
+        $this->renderView('frontend.products.update', array(
+            'data' => $data,
+        ));
+    }
 }

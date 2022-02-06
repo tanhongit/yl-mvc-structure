@@ -17,13 +17,19 @@ class BaseModel extends Database
      */
     public function create($table, $data)
     {
-        $data['id'] = 0;
+        $data['id'] = 0; //set new row
         return $this->save($table, $data);
     }
 
-    public function update()
+    /**
+     * Update data to table (use ID in $data)
+     * @param $table
+     * @param $data
+     * @return int|string|void
+     */
+    public function update($table, $data)
     {
-        return __METHOD__;
+        return $this->save($table, $data);;
     }
 
     public function delete()
@@ -52,7 +58,10 @@ class BaseModel extends Database
         return $this->getRecordByID($table, $id);
     }
 
-
+    /**
+     * @param $sql
+     * @return bool|mysqli_result
+     */
     public function _query($sql)
     {
         return mysqli_query($this->connectResult, $sql);
