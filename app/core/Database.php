@@ -45,9 +45,10 @@ class Database
     {
         $select = isset($options['select']) ? $options['select'] : '*';
         $where = isset($options['where']) ? 'WHERE ' . $options['where'] : '';
+        $join = isset($options['join']) ? 'LEFT JOIN ' . $options['join'] : '';
         $order_by = isset($options['order_by']) ? 'ORDER BY ' . $options['order_by'] : '';
         $limit = isset($options['offset']) && isset($options['limit']) ? 'LIMIT ' . $options['offset'] . ',' . $options['limit'] : '';
-        $sql = "SELECT $select FROM `$table` $where $order_by $limit";
+        $sql = "SELECT $select FROM `$table` $join $where $order_by $limit";
         $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
         $data = array();
         if (mysqli_num_rows($query) > 0) {
@@ -98,7 +99,7 @@ class Database
         } else {
             $sql = "INSERT INTO `$table` SET " . implode(',', $values);
         }
-        $this->_query($sql) or die(mysqli_error($this->connectResult));
+        $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
         $id = ($id > 0) ? $id : mysqli_insert_id($this->connectResult);
         return $id;
     }

@@ -1,6 +1,6 @@
 <?php
 
-class BaseModel extends Database
+class BaseModel extends Model
 {
     protected $connectResult;
 
@@ -47,9 +47,9 @@ class BaseModel extends Database
      * @param $table
      * @return array|void
      */
-    public function all($table)
+    public function all($table, $attributes)
     {
-        return $this->getByOptions($table);
+        return $this->getByOptions($table, $attributes);
     }
 
     /**
@@ -70,5 +70,14 @@ class BaseModel extends Database
     public function _query($sql)
     {
         return mysqli_query($this->connectResult, $sql);
+    }
+
+    /**
+     * Escape special characters in string
+     * @param $str
+     */
+    public function escape($str)
+    {
+        return mysqli_real_escape_string($this->connectResult, $str);
     }
 }
