@@ -1,37 +1,33 @@
-## Welcome to GitHub Pages
+# Welcome to PHP MVC Structure by TanHongIT
 
-You can use the [editor on GitHub](https://github.com/TanHongIT/php-mvc-structure/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+# 1. Configuration requirements
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+    - Version PHP 7.2 and above
+    - OpenSSL PHP Extension
 
-### Markdown
+# 2. Technology
+- Pure PHP language
+- Using MVC model
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+# 3. Setup assets folder
 
-```markdown
-Syntax highlighted code block
+This Project is using webpack in order to compile Javascript modules and compile Sass/SCSS files to css. Run the following commands in the project's asset directory:
 
-# Header 1
-## Header 2
-### Header 3
+Run:
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```shell
+cd public/frontend/assets
+npm install
+npm run build
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+# 4. Edit Connect Database
 
-### Jekyll Themes
+You need to change the connection information to the database after you have cloned my repository so that the website can work.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/TanHongIT/php-mvc-structure/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```php
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'chatapp-php');
+```
