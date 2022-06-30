@@ -9,7 +9,7 @@ class ProductModel extends BaseModel
      */
     public function getAll()
     {
-        return $this->all(self::TABLE);
+        return $this->all(self::TABLE, array());
     }
 
     /**
