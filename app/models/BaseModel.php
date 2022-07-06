@@ -45,9 +45,10 @@ class BaseModel extends Model
     /**
      * Get all data in the table
      * @param $table
+     * @param $attributes
      * @return array|void
      */
-    public function all($table, $attributes)
+    public function all($table, $attributes = array())
     {
         return $this->getByOptions($table, $attributes);
     }
