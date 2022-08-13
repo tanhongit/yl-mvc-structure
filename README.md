@@ -6,7 +6,7 @@ It's built based on the combination of ideas from the Yii framework and Laravel 
 
 # 1. Configuration requirements
 
-    - Version PHP 7.2 and above
+    - Version PHP 7.2 and above (latest - 8.1)
     - OpenSSL PHP Extension
 
 # 2. Technology
@@ -35,7 +35,7 @@ Path: [`/config/database.php`](https://github.com/TanHongIT/yl-mvc-structure/tre
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'chatapp-php');
+define('DB_NAME', 'mvc-structure');
 ```
 
 # 5. Install and using ssl certificate
@@ -69,6 +69,8 @@ mkcert local.yl_mvc_structure.com
 ```
 
 ### Update configuration
+
+Setup conf file using Apache:
 
 Change **local.yl_mvc_structure.com.conf** file (/apache2/sites-available/ to this)
 
