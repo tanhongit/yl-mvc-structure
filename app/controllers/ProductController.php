@@ -7,7 +7,7 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->loadModel('ProductModel');
-        $this->productModel = new ProductModel;
+        $this->productModel = new ProductModel();
     }
 
     public function index()

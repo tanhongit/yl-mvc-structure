@@ -3,9 +3,11 @@
 class Database
 {
     protected $connection = NULL;
+    public $connectResult;
 
     public function __construct()
     {
+        $this->connectResult = $this->connect();
     }
 
     /**
@@ -16,7 +18,7 @@ class Database
     {
         // Create connection
         if (!$this->connection) {
-            $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
             $this->connection->set_charset('utf8mb4');
         }
         return $this->connection;
@@ -29,10 +31,8 @@ class Database
      */
     public function select($sql)
     {
-        $items = array();
         $sql->execute();
-        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
-        return $items;
+        return $sql->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
     /**
@@ -41,9 +41,9 @@ class Database
      * @param array $options
      * @return array|void
      */
-    public function getByOptions($table, $options = array())
+    public function getByOptions($table, array $options = array())
     {
-        $select = isset($options['select']) ? $options['select'] : '*';
+        $select = $options['select'] ?? '*';
         $where = isset($options['where']) ? 'WHERE ' . $options['where'] : '';
         $join = isset($options['join']) ? 'LEFT JOIN ' . $options['join'] : '';
         $order_by = isset($options['order_by']) ? 'ORDER BY ' . $options['order_by'] : '';
@@ -65,9 +65,9 @@ class Database
      * @param $table
      * @param $id
      * @param string $select
-     * @return array|false|string[]|void|null
+     * @return array|false|void|null
      */
-    public function getRecordByID($table, $id, $select = '*')
+    public function getRecordByID($table, $id, string $select = '*')
     {
         $id = intval($id);
         $sql = "SELECT $select FROM `$table` WHERE id=$id";
@@ -86,7 +86,7 @@ class Database
      * @param array $data
      * @return int|string|void
      */
-    public function save($table, $data = array())
+    public function save($table, array $data = array())
     {
         $values = array();
         foreach ($data as $key => $value) {
@@ -108,10 +108,17 @@ class Database
      * Delete data from table by ID
      * @param $table
      * @param $id
+     * @return array|false|void|null
      */
     public function destroy($table, $id)
     {
-        $sql = "DELETE FROM `$table` WHERE id=$id";
-        $this->_query($sql) or die(mysqli_error($this->connectResult));
+        $record = $this->getRecordByID($table, $id);
+
+        if ($record) {
+            $sql = "DELETE FROM `$table` WHERE id=$id";
+            $this->_query($sql) or die(mysqli_error($this->connectResult));
+        }
+
+        return $record;
     }
 }

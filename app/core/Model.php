@@ -2,9 +2,9 @@
 
 class Model extends Database
 {
-
     public function __construct()
     {
+        parent::__construct();
     }
 
     /**
@@ -13,7 +13,7 @@ class Model extends Database
      * @param array $config
      * @return false|string
      */
-    public function upload($field, $config = array())
+    public function upload($field, array $config = array())
     {
         $options = array(
             'name' => '',
@@ -52,10 +52,9 @@ class Model extends Database
      */
     public static function slug($str)
     {
-        $str = self::convert_name($str);
+        $str = (new Model)->convert_name($str);
         $str = strtolower($str); //mb_strtolower($str, 'UTF-8');
-        $str = str_replace(' ', '-', $str);
-        return $str;
+        return str_replace(' ', '-', $str);
     }
 
     /**
@@ -80,7 +79,6 @@ class Model extends Database
         $str = preg_replace("/(Ỳ|Ý|Ỵ|Ỷ|Ỹ)/", 'Y', $str);
         $str = preg_replace("/(Đ)/", 'D', $str);
         $str = preg_replace("/(\“|\”|\‘|\’|\,|\!|\&|\;|\@|\#|\%|\~|\`|\=|\_|\'|\]|\[|\}|\{|\)|\(|\+|\^)/", '-', $str);
-        $str = preg_replace("/( )/", '-', $str);
-        return $str;
+        return preg_replace("/( )/", '-', $str);
     }
 }

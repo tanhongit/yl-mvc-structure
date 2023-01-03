@@ -4,14 +4,17 @@ class CategoryModel extends BaseModel
 {
     const TABLE = 'categories';
 
-    public function getAll()
+    /**
+     * @return array
+     */
+    public function getAll(): array
     {
-        return __METHOD__;
+        return $this->all(self::TABLE);
     }
 
     /**
      * @param $id
-     * @return array|false|string[]|void|null
+     * @return array|false|string[]|null
      */
     public function findByID($id)
     {
@@ -20,6 +23,7 @@ class CategoryModel extends BaseModel
 
     /**
      * @param $id
+     * @return array|false|null
      */
     public function deleteByID($id)
     {
@@ -28,7 +32,7 @@ class CategoryModel extends BaseModel
 
     /**
      * @param $data
-     * @return int|string|void
+     * @return int|string
      */
     public function store($data)
     {
@@ -37,7 +41,7 @@ class CategoryModel extends BaseModel
 
     /**
      * @param $data
-     * @return int|string|void
+     * @return int|string
      */
     public function updateData($data)
     {
@@ -46,7 +50,7 @@ class CategoryModel extends BaseModel
 
     /**
      * @param $attributes
-     * @return array|void
+     * @return array|null
      */
     public function findByAttribute($attributes)
     {

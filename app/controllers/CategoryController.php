@@ -7,7 +7,7 @@ class CategoryController extends Controller
     public function __construct()
     {
         $this->loadModel('CategoryModel');
-        $this->categoryModel = new CategoryModel;
+        $this->categoryModel = new CategoryModel();
     }
 
     public function index()
@@ -25,8 +25,17 @@ class CategoryController extends Controller
         ));
     }
 
-    public function run()
+    /**
+     * @return string
+     */
+    public function run(): string
     {
-        echo __METHOD__;
+        return __METHOD__;
+    }
+
+    public function all()
+    {
+        $this->renderView('frontend.products.all');
+        var_dump($this->categoryModel->getAll());
     }
 }

@@ -2,18 +2,16 @@
 
 class BaseModel extends Model
 {
-    protected $connectResult;
-
     public function __construct()
     {
-        $this->connectResult = $this->connect();
+        parent::__construct();
     }
 
     /**
      * Create new data to table
      * @param $table
      * @param $data
-     * @return int|string|void
+     * @return int|string
      */
     public function create($table, $data)
     {
@@ -25,7 +23,7 @@ class BaseModel extends Model
      * Update data to table (use ID in $data)
      * @param $table
      * @param $data
-     * @return int|string|void
+     * @return int|string
      */
     public function update($table, $data)
     {
@@ -36,6 +34,7 @@ class BaseModel extends Model
      * Delete data from table by ID
      * @param $table
      * @param $id
+     * @return array|false|null
      */
     public function delete($table, $id)
     {
@@ -45,10 +44,10 @@ class BaseModel extends Model
     /**
      * Get all data in the table
      * @param $table
-     * @param $attributes
-     * @return array|void
+     * @param array $attributes
+     * @return array|null
      */
-    public function all($table, $attributes = array())
+    public function all($table, array $attributes = array())
     {
         return $this->getByOptions($table, $attributes);
     }
@@ -57,7 +56,7 @@ class BaseModel extends Model
      * Get data in table by ID
      * @param $table
      * @param $id
-     * @return array|false|string[]|void|null
+     * @return array|false|string[]|null
      */
     public function find($table, $id)
     {
@@ -76,8 +75,9 @@ class BaseModel extends Model
     /**
      * Escape special characters in string
      * @param $str
+     * @return string
      */
-    public function escape($str)
+    public function escape($str): string
     {
         return mysqli_real_escape_string($this->connectResult, $str);
     }

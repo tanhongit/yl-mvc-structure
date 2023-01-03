@@ -6,7 +6,8 @@ class Controller
     const MODEL_PATH = 'app/models';
 
     /**
-     * index
+     * Index
+     * @return void
      */
     public function index()
     {
@@ -42,6 +43,7 @@ class Controller
     }
 
     /**
+     * Load model
      * @param $modelPath
      */
     protected function loadModel($modelPath)

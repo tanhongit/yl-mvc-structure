@@ -29,12 +29,14 @@ npm run build
 
 You need to change the connection information to the database if you want to store and use data for the website.
 
-Path: [`/config/database.php`](https://github.com/TanHongIT/yl-mvc-structure/tree/main/config)
+Path: [`/config/database.php.example`](https://github.com/TanHongIT/yl-mvc-structure/tree/main/config)
+
+Copy the file `database.php.example` to `database.php` and edit the information in the file.
 
 ```php
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASSWORD', '');
 define('DB_NAME', 'mvc-structure');
 ```
 

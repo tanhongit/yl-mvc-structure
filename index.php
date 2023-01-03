@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-//require all PHP files from a directory
+// Require all PHP files from a directory
 $folderList = array(
     './config/',
     './app/core/',
@@ -9,14 +9,18 @@ $folderList = array(
 );
 foreach ($folderList as $folder) {
     foreach (glob($folder . "*.php") as $filename) {
-        require $filename;
+        if (file_exists($filename)) {
+            require $filename;
+        }
     }
 }
 
 require './app/models/BaseModel.php';
 
 spl_autoload_register(function ($className) {
-    require './app/controllers/' . $className . '.php';
+    if (file_exists('./app/controllers/' . $className . '.php')) {
+        require './app/controllers/' . $className . '.php';
+    }
 });
 
 //Controller
@@ -30,8 +34,8 @@ require "./app/controllers/${controllerName}.php";
 if (isset($_REQUEST['action']) && '' != $_REQUEST['action']) {
     $actionParam = strtolower($_REQUEST['action']);
 }
-$actionName = $actionParam ?? 'index';
+$actionName = $actionParam ?? 'Index';
 
 //Run
-$controllerObject = new $controllerName;
+$controllerObject = new $controllerName();
 $controllerObject->$actionName();
