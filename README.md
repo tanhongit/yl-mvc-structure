@@ -34,7 +34,7 @@ Path: [`/config/database.php`](https://github.com/TanHongIT/yl-mvc-structure/tre
 ```php
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASSWORD', '');
 define('DB_NAME', 'mvc-structure');
 ```
 

@@ -3,9 +3,11 @@
 class Database
 {
     protected $connection = NULL;
+    public $connectResult;
 
     public function __construct()
     {
+        $this->connectResult = $this->connect();
     }
 
     /**
@@ -16,7 +18,7 @@ class Database
     {
         // Create connection
         if (!$this->connection) {
-            $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+            $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
             $this->connection->set_charset('utf8mb4');
         }
         return $this->connection;

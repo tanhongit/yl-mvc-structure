@@ -2,11 +2,9 @@
 
 class BaseModel extends Model
 {
-    protected $connectResult;
-
     public function __construct()
     {
-        $this->connectResult = $this->connect();
+        parent::__construct();
     }
 
     /**
