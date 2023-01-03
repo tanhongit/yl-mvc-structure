@@ -2,8 +2,8 @@
 
 class Controller
 {
-    const VIEW_PATH = 'app/views';
-    const MODEL_PATH = 'app/models';
+    const VIEW_PATH = 'resources/views';
+    const MODEL_PATH = 'app/Model';
 
     /**
      * Index

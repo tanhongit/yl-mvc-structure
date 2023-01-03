@@ -4,10 +4,10 @@ session_start();
 // Require all PHP files from a directory
 $folderList = array(
     './config/',
-    './app/core/',
+    './app/Core/',
     './lib/',
 );
-$gfgFolderList = ['Controller' => './app/controllers/'];
+$gfgFolderList = ['Controller' => './app/Controller/'];
 
 foreach ($folderList as $folder) {
     foreach (glob($folder . "*.php") as $filename) {
@@ -17,7 +17,7 @@ foreach ($folderList as $folder) {
     }
 }
 
-require './app/models/BaseModel.php';
+require './app/Model/BaseModel.php';
 
 if (is_dir($gfgFolderList['Controller'])) {
     if ($gfgDir = opendir($gfgFolderList['Controller'])) {
