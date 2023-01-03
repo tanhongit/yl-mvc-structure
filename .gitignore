@@ -1,1 +1,3 @@
 .idea
+/config/database.php
+.vscode
