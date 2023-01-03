@@ -25,6 +25,15 @@ class Database
     }
 
     /**
+     * @param $sql
+     * @return bool|mysqli_result
+     */
+    public function _query($sql)
+    {
+        return mysqli_query($this->connectResult, $sql);
+    }
+
+    /**
      * Execute the query and process the returned results
      * @param $sql
      * @return mixed

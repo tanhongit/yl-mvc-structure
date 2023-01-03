@@ -64,15 +64,6 @@ class BaseModel extends Model
     }
 
     /**
-     * @param $sql
-     * @return bool|mysqli_result
-     */
-    public function _query($sql)
-    {
-        return mysqli_query($this->connectResult, $sql);
-    }
-
-    /**
      * Escape special characters in string
      * @param $str
      * @return string
