@@ -107,6 +107,10 @@ Change **local.yl_mvc_structure.com.conf** file (/apache2/sites-available/ to th
 </VirtualHost>
 ```
 
+> **_Note_**: Please make sure your local or your host has been configured to use the domain name `local.yl_mvc_structure.com` (or another domain name you want to use) to point to the project folder.
+
+# 6. Run project
+
 When done, you can test the website by opening the browser and typing the following URL:
 
 ```shell
@@ -115,5 +119,23 @@ https://local.yl_mvc_structure.com
 https://local.yl_mvc_structure.com/product
 https://local.yl_mvc_structure.com/product/all
 https://local.yl_mvc_structure.com/product/show/1
+https://local.yl_mvc_structure.com/category
 ...
+```
+
+> **_Note_**: To could run the above URLs, you make sure your local or your host must be enabled the `mod_rewrite` module.
+
+You can also use the following command to check if the module is enabled (for Apache on Ubuntu):
+
+```shell
+sudo a2enmod rewrite
+```
+
+**If you can't enable the `mod_rewrite` module, you can use the following URL to run the project:**
+
+```shell
+https://local.yl_mvc_structure.com/index.php?controller=product&action=index
+https://local.yl_mvc_structure.com/index.php?controller=product&action=all
+https://local.yl_mvc_structure.com/index.php?controller=product&action=show&id=1
+https://local.yl_mvc_structure.com/index.php?controller=category&action=index
 ```
