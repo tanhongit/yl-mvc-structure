@@ -7,6 +7,8 @@ $folderList = array(
     './app/core/',
     './lib/',
 );
+$gfgFolderList = ['Controller' => './app/controllers/'];
+
 foreach ($folderList as $folder) {
     foreach (glob($folder . "*.php") as $filename) {
         if (file_exists($filename)) {
@@ -17,18 +19,38 @@ foreach ($folderList as $folder) {
 
 require './app/models/BaseModel.php';
 
-spl_autoload_register(function ($className) {
-    if (file_exists('./app/controllers/' . $className . '.php')) {
-        require './app/controllers/' . $className . '.php';
+if (is_dir($gfgFolderList['Controller'])) {
+    if ($gfgDir = opendir($gfgFolderList['Controller'])) {
+        // Loop through the directory
+        while (($gfgSubFolder = readdir($gfgDir)) !== false) {
+            $gfgTempPath = $gfgFolderList['Controller'] . $gfgSubFolder . '/';
+            if (is_dir($gfgTempPath) && $gfgSubFolder != '.' && $gfgSubFolder != '..') {
+                $gfgFolderList[$gfgSubFolder] = $gfgTempPath;
+            }
+        }
+        closedir($gfgDir);
     }
-});
+}
+
+// Require all PHP files from directory and subdirectory
+foreach ($gfgFolderList as $folder) {
+    spl_autoload_register(function ($className) use ($folder) {
+        $fileTemp = $folder . '/' . $className . '.php';
+        if (file_exists($folder . $className . '.php')) {
+            require $folder . $className . '.php';
+        }
+    });
+}
 
 //Controller
 if (isset($_REQUEST['controller']) && '' != $_REQUEST['controller']) {
     $controllerParam = strtolower($_REQUEST['controller']);
 }
-$controllerName = ucfirst(($controllerParam ?? '') . 'Controller');
-require "./app/controllers/${controllerName}.php";
+
+$controllerNamePrefix = ucfirst($controllerParam ?? '');
+$controllerName = $controllerNamePrefix . 'Controller';
+
+require $gfgFolderList[$controllerNamePrefix] . $controllerName . '.php';
 
 //Action
 if (isset($_REQUEST['action']) && '' != $_REQUEST['action']) {
