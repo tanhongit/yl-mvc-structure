@@ -11,7 +11,7 @@ class Controller
      */
     public function index()
     {
-        self::renderView('frontend.index');
+        $this->renderView('frontend.index');
     }
 
     /**
