@@ -42,7 +42,7 @@ foreach ($gfgFolderList as $folder) {
     });
 }
 
-//Controller
+// Get Controller
 if (isset($_REQUEST['controller']) && '' != $_REQUEST['controller']) {
     $controllerParam = strtolower($_REQUEST['controller']);
 }
@@ -50,14 +50,24 @@ if (isset($_REQUEST['controller']) && '' != $_REQUEST['controller']) {
 $controllerNamePrefix = ucfirst($controllerParam ?? '');
 $controllerName = $controllerNamePrefix . 'Controller';
 
-require $gfgFolderList[$controllerNamePrefix] . $controllerName . '.php';
-
-//Action
+// Get Action
 if (isset($_REQUEST['action']) && '' != $_REQUEST['action']) {
     $actionParam = strtolower($_REQUEST['action']);
 }
 $actionName = $actionParam ?? 'Index';
 
+// 404 page for not found controller
+if (!class_exists($controllerName)) {
+    $controllerName = 'AppController';
+    $actionName = 'NotFound';
+}
+
 //Run
 $controllerObject = new $controllerName();
-$controllerObject->$actionName();
+
+if (method_exists($controllerObject, $actionName)) {
+    $controllerObject->$actionName();
+} else {
+    $controllerObject = new AppController();
+    $controllerObject->notFound();
+}

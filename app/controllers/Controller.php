@@ -51,4 +51,13 @@ class Controller
         $modelPathFile = self::MODEL_PATH . '/' . str_replace('.', '/', $modelPath) . '.php';
         require $modelPathFile;
     }
+
+    /**
+     * Redirect to 404 page
+     * @return void
+     */
+    public function notFound()
+    {
+        $this->renderView('frontend.error.pages.404');
+    }
 }
