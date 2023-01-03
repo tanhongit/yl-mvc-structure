@@ -2,8 +2,8 @@
 
 class Controller
 {
-    const VIEW_PATH = 'app/views';
-    const MODEL_PATH = 'app/models';
+    const VIEW_PATH = 'resources/views';
+    const MODEL_PATH = 'app/Model';
 
     /**
      * Index
@@ -50,5 +50,14 @@ class Controller
     {
         $modelPathFile = self::MODEL_PATH . '/' . str_replace('.', '/', $modelPath) . '.php';
         require $modelPathFile;
+    }
+
+    /**
+     * Redirect to 404 page
+     * @return void
+     */
+    public function notFound()
+    {
+        $this->renderView('frontend.error.pages.404');
     }
 }
