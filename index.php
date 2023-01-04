@@ -18,6 +18,7 @@ foreach ($folderList as $folder) {
 }
 
 require './app/Model/BaseModel.php';
+require './app/Controller/Controller.php';
 
 if (is_dir($gfgFolderList['Controller'])) {
     if ($gfgDir = opendir($gfgFolderList['Controller'])) {
@@ -32,16 +33,6 @@ if (is_dir($gfgFolderList['Controller'])) {
     }
 }
 
-// Require all PHP files from directory and subdirectory
-foreach ($gfgFolderList as $folder) {
-    spl_autoload_register(function ($className) use ($folder) {
-        $fileTemp = $folder . '/' . $className . '.php';
-        if (file_exists($folder . $className . '.php')) {
-            require $folder . $className . '.php';
-        }
-    });
-}
-
 // Get Controller
 if (isset($_REQUEST['controller']) && '' != $_REQUEST['controller']) {
     $controllerParam = strtolower($_REQUEST['controller']);
@@ -49,6 +40,15 @@ if (isset($_REQUEST['controller']) && '' != $_REQUEST['controller']) {
 
 $controllerNamePrefix = ucfirst($controllerParam ?? '');
 $controllerName = $controllerNamePrefix . 'Controller';
+
+foreach ($gfgFolderList as $folder) {
+    $fileTemp = $folder . $controllerName . '.php';
+    if (class_exists($controllerName)) {
+        break;
+    } elseif (file_exists($fileTemp)) {
+        require $fileTemp;
+    }
+}
 
 // Get Action
 if (isset($_REQUEST['action']) && '' != $_REQUEST['action']) {
@@ -58,7 +58,7 @@ $actionName = $actionParam ?? 'Index';
 
 // 404 page for not found controller
 if (!class_exists($controllerName)) {
-    $controllerName = 'AppController';
+    $controllerName = 'Controller';
     $actionName = 'NotFound';
 }
 
@@ -68,6 +68,6 @@ $controllerObject = new $controllerName();
 if (method_exists($controllerObject, $actionName)) {
     $controllerObject->$actionName();
 } else {
-    $controllerObject = new AppController();
+    $controllerObject = new Controller();
     $controllerObject->notFound();
 }
