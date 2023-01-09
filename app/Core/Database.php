@@ -16,7 +16,6 @@ class Database
      */
     public function connect()
     {
-        // Create connection
         if (!$this->connection) {
             $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
             $this->connection->set_charset('utf8mb4');
@@ -90,7 +89,7 @@ class Database
     }
 
     /**
-     * Save data to table (insert, update)
+     * Save data to table (using for insert and update)
      * @param $table
      * @param array $data
      * @return int|string|void
@@ -108,9 +107,8 @@ class Database
         } else {
             $sql = "INSERT INTO `$table` SET " . implode(',', $values);
         }
-        $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
-        $id = ($id > 0) ? $id : mysqli_insert_id($this->connectResult);
-        return $id;
+        $this->_query($sql) or die(mysqli_error($this->connectResult));
+        return ($id > 0) ? $id : mysqli_insert_id($this->connectResult);
     }
 
     /**
