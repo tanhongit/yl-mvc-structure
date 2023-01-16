@@ -1,3 +1,4 @@
 .idea
 /config/database.php
 .vscode
+error_log
