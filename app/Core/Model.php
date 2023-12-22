@@ -9,8 +9,10 @@ class Model extends Database
 
     /**
      * Upload overwrite image
+     *
      * @param $field
      * @param array $config
+     *
      * @return false|string
      */
     public function upload($field, array $config = array())
@@ -19,23 +21,32 @@ class Model extends Database
             'name' => '',
             'upload_path' => './',
             'allowed_exts' => '*',
-            'overwrite' => TRUE,
+            'overwrite' => true,
             'max_size' => 0
         );
         $options = array_merge($options, $config);
-        if (!isset($_FILES[$field])) return FALSE;
+        if (!isset($_FILES[$field])) {
+            return false;
+        }
         $file = $_FILES[$field];
-        if ($file['error'] != 0) return FALSE;
+        if ($file['error'] != 0) {
+            return false;
+        }
         $temp = explode(".", $file["name"]);
         $ext = end($temp);
         if ($options['allowed_exts'] != '*') {
             $allowedExts = explode('|', $options['allowed_exts']);
-            if (!in_array($ext, $allowedExts)) return FALSE;
+            if (!in_array($ext, $allowedExts)) {
+                return false;
+            }
         }
         $size = $file['size'] / 1024 / 1024;
-        if (($options['max_size'] > 0) && ($size > $options['max_size'])) return FALSE;
+        if (($options['max_size'] > 0) && ($size > $options['max_size'])) {
+            return false;
+        }
 
-        $name = time() . '_' . (('' == $options['name']) ? $options['name'] . '.' . $ext : $file["name"]);
+        $name = time() . '_' . (('' == $options['name']) ? $options['name']
+                . '.' . $ext : $file["name"]);
         $file_path = $options['upload_path'] . $name;
         if ($options['overwrite'] && file_exists($file_path)) {
             unlink($file_path);
@@ -47,7 +58,9 @@ class Model extends Database
 
     /**
      * Convert slug
+     *
      * @param $str
+     *
      * @return array|string|string[]
      */
     public static function slug($str)
@@ -59,7 +72,9 @@ class Model extends Database
 
     /**
      * Change string to slug format
+     *
      * @param $str
+     *
      * @return array|string|string[]|null
      */
     public function convert_name($str)

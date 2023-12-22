@@ -14,6 +14,7 @@ class ProductModel extends BaseModel
 
     /**
      * @param $id
+     *
      * @return array|false|string[]|null
      */
     public function findByID($id)
@@ -23,6 +24,7 @@ class ProductModel extends BaseModel
 
     /**
      * @param $id
+     *
      * @return array|false|null
      */
     public function deleteByID($id)
@@ -32,6 +34,7 @@ class ProductModel extends BaseModel
 
     /**
      * @param $data
+     *
      * @return int|string
      */
     public function store($data)
@@ -41,6 +44,7 @@ class ProductModel extends BaseModel
 
     /**
      * @param $data
+     *
      * @return int|string
      */
     public function updateData($data)
@@ -50,6 +54,7 @@ class ProductModel extends BaseModel
 
     /**
      * @param $attributes
+     *
      * @return array|null
      */
     public function findByAttribute($attributes)

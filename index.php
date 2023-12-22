@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 // Require all PHP files from a directory
@@ -25,7 +26,9 @@ if (is_dir($gfgFolderList['Controller'])) {
         // Loop through the directory
         while (($gfgSubFolder = readdir($gfgDir)) !== false) {
             $gfgTempPath = $gfgFolderList['Controller'] . $gfgSubFolder . '/';
-            if (is_dir($gfgTempPath) && $gfgSubFolder != '.' && $gfgSubFolder != '..') {
+            if (is_dir($gfgTempPath) && $gfgSubFolder != '.'
+                && $gfgSubFolder != '..'
+            ) {
                 $gfgFolderList[$gfgSubFolder] = $gfgTempPath;
             }
         }

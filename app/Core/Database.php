@@ -2,7 +2,7 @@
 
 class Database
 {
-    protected $connection = NULL;
+    protected $connection = null;
     public $connectResult;
 
     public function __construct()
@@ -12,13 +12,15 @@ class Database
 
     /**
      * Connection database
+     *
      * @return mysqli|null
      */
     public function connect()
     {
         // Create connection
         if (!$this->connection) {
-            $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+            $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD,
+                DB_NAME);
             $this->connection->set_charset('utf8mb4');
         }
         return $this->connection;
@@ -26,6 +28,7 @@ class Database
 
     /**
      * @param $sql
+     *
      * @return bool|mysqli_result
      */
     public function _query($sql)
@@ -35,7 +38,9 @@ class Database
 
     /**
      * Execute the query and process the returned results
+     *
      * @param $sql
+     *
      * @return mixed
      */
     public function select($sql)
@@ -46,8 +51,10 @@ class Database
 
     /**
      * Get the data in the table according to the arbitrary request of option
+     *
      * @param $table
      * @param array $options
+     *
      * @return array|void
      */
     public function getByOptions($table, array $options = array())
@@ -55,8 +62,11 @@ class Database
         $select = $options['select'] ?? '*';
         $where = isset($options['where']) ? 'WHERE ' . $options['where'] : '';
         $join = isset($options['join']) ? 'LEFT JOIN ' . $options['join'] : '';
-        $order_by = isset($options['order_by']) ? 'ORDER BY ' . $options['order_by'] : '';
-        $limit = isset($options['offset']) && isset($options['limit']) ? 'LIMIT ' . $options['offset'] . ',' . $options['limit'] : '';
+        $order_by = isset($options['order_by'])
+            ? 'ORDER BY '
+            . $options['order_by'] : '';
+        $limit = isset($options['offset']) && isset($options['limit'])
+            ? 'LIMIT ' . $options['offset'] . ',' . $options['limit'] : '';
         $sql = "SELECT $select FROM `$table` $join $where $order_by $limit";
         $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
         $data = array();
@@ -71,9 +81,11 @@ class Database
 
     /**
      * Get data in table by id
+     *
      * @param $table
      * @param $id
      * @param string $select
+     *
      * @return array|false|void|null
      */
     public function getRecordByID($table, $id, string $select = '*')
@@ -81,7 +93,7 @@ class Database
         $id = intval($id);
         $sql = "SELECT $select FROM `$table` WHERE id=$id";
         $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
-        $data = NULL;
+        $data = null;
         if (mysqli_num_rows($query) > 0) {
             $data = mysqli_fetch_assoc($query);
             mysqli_free_result($query);
@@ -91,8 +103,10 @@ class Database
 
     /**
      * Save data to table (insert, update)
+     *
      * @param $table
      * @param array $data
+     *
      * @return int|string|void
      */
     public function save($table, array $data = array())
@@ -115,8 +129,10 @@ class Database
 
     /**
      * Delete data from table by ID
+     *
      * @param $table
      * @param $id
+     *
      * @return array|false|void|null
      */
     public function destroy($table, $id)
