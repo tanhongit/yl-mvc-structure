@@ -55,7 +55,7 @@ class BaseModel extends Model
      *
      * @return array|null
      */
-    public function all($table, array $attributes = array())
+    public function all($table, array $attributes = array()): ?array
     {
         return $this->getByOptions($table, $attributes);
     }

@@ -7,7 +7,7 @@ class ProductModel extends BaseModel
     /**
      * @return array|null
      */
-    public function getAll()
+    public function getAll(): ?array
     {
         return $this->all(self::TABLE);
     }
@@ -57,7 +57,7 @@ class ProductModel extends BaseModel
      *
      * @return array|null
      */
-    public function findByAttribute($attributes)
+    public function findByAttribute($attributes): ?array
     {
         return $this->all(self::TABLE, $attributes);
     }

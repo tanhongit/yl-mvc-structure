@@ -2,7 +2,7 @@
 
 class CategoryModel extends BaseModel
 {
-    const TABLE = 'categories';
+    public const TABLE = 'categories';
 
     /**
      * @return array
@@ -57,7 +57,7 @@ class CategoryModel extends BaseModel
      *
      * @return array|null
      */
-    public function findByAttribute($attributes)
+    public function findByAttribute($attributes): ?array
     {
         return $this->all(self::TABLE, $attributes);
     }
