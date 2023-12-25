@@ -37,7 +37,7 @@ class ProductModel extends BaseModel
      *
      * @return int|string
      */
-    public function store($data)
+    public function store($data): int|string
     {
         return $this->create(self::TABLE, $data);
     }
@@ -47,7 +47,7 @@ class ProductModel extends BaseModel
      *
      * @return int|string
      */
-    public function updateData($data)
+    public function updateData($data): int|string
     {
         return $this->update(self::TABLE, $data);
     }

@@ -15,7 +15,7 @@ class BaseModel extends Model
      *
      * @return int|string
      */
-    public function create($table, $data)
+    public function create($table, $data): int|string
     {
         $data['id'] = 0; //set new row
         return $this->save($table, $data);
@@ -29,7 +29,7 @@ class BaseModel extends Model
      *
      * @return int|string
      */
-    public function update($table, $data)
+    public function update($table, $data): int|string
     {
         return $this->save($table, $data);
     }
@@ -42,7 +42,7 @@ class BaseModel extends Model
      *
      * @return array|false|null
      */
-    public function delete($table, $id)
+    public function delete($table, $id): false|array|null
     {
         return $this->destroy($table, $id);
     }
@@ -68,7 +68,7 @@ class BaseModel extends Model
      *
      * @return array|false|string[]|null
      */
-    public function find($table, $id)
+    public function find($table, $id): array|false|null
     {
         return $this->getRecordByID($table, $id);
     }

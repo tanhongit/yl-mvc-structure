@@ -15,7 +15,7 @@ class Model extends Database
      *
      * @return false|string
      */
-    public function upload($field, array $config = array())
+    public function upload($field, array $config = array()): false|string
     {
         $options = array(
             'name' => '',
@@ -63,7 +63,7 @@ class Model extends Database
      *
      * @return array|string|string[]
      */
-    public static function slug($str)
+    public static function slug($str): array|string
     {
         $str = (new Model)->convert_name($str);
         $str = strtolower($str); //mb_strtolower($str, 'UTF-8');
@@ -77,7 +77,7 @@ class Model extends Database
      *
      * @return array|string|string[]|null
      */
-    public function convert_name($str)
+    public function convert_name($str): array|string|null
     {
         $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/", 'a', $str);
         $str = preg_replace("/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/", 'e', $str);

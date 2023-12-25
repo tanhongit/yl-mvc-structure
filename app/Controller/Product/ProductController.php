@@ -2,7 +2,7 @@
 
 class ProductController extends Controller
 {
-    private $productModel;
+    protected ProductModel $productModel;
 
     public function __construct()
     {
@@ -10,30 +10,30 @@ class ProductController extends Controller
         $this->productModel = new ProductModel();
     }
 
-    public function index()
+    public function index(): void
     {
         $this->renderView('frontend.products.index');
     }
 
-    public function run()
+    public function run(): void
     {
         echo __METHOD__;
     }
 
-    public function all()
+    public function all(): void
     {
         $this->renderView('frontend.products.all');
         var_dump($this->productModel->getAll());
     }
 
-    public function show()
+    public function show(): void
     {
         $id = $_GET['id'] ?? 0;
         $this->renderView('frontend.products.show');
         var_dump($this->productModel->findByID($id));
     }
 
-    public function store()
+    public function store(): void
     {
         $data = array(
             'name' => 'product 1',
@@ -47,7 +47,7 @@ class ProductController extends Controller
         ));
     }
 
-    public function update()
+    public function update(): void
     {
         $data = array(
             'id' => 2,
@@ -62,7 +62,7 @@ class ProductController extends Controller
         ));
     }
 
-    public function delete()
+    public function delete(): void
     {
         $this->productModel->deleteByID(6);
     }

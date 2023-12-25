@@ -2,15 +2,15 @@
 
 class Controller
 {
-    const VIEW_PATH = 'resources/views';
-    const MODEL_PATH = 'app/Model';
+    public const VIEW_PATH = 'resources/views';
+    public const MODEL_PATH = 'app/Model';
 
     /**
      * Index
      *
      * @return void
      */
-    public function index()
+    public function index(): void
     {
         $this->renderView('frontend.index');
     }
@@ -21,7 +21,7 @@ class Controller
      * @param $viewPath
      * @param array $data
      */
-    public function renderView($viewPath, array $data = [])
+    public function renderView($viewPath, array $data = []): void
     {
         $this->renderPartial('frontend.partial.header');
         $this->renderPartial($viewPath, $data);
@@ -34,7 +34,7 @@ class Controller
      * @param $partialPath
      * @param array $data
      */
-    public function renderPartial($partialPath, array $data = [])
+    public function renderPartial($partialPath, array $data = []): void
     {
         //get data
         foreach ($data as $key => $value) {
@@ -53,7 +53,7 @@ class Controller
      *
      * @return void
      */
-    protected function loadModel($modelPath)
+    protected function loadModel($modelPath): void
     {
         $modelPathFile = self::MODEL_PATH . '/' . str_replace('.', '/',
                 $modelPath) . '.php';
@@ -65,7 +65,7 @@ class Controller
      *
      * @return void
      */
-    public function notFound()
+    public function notFound(): void
     {
         $this->renderView('frontend.error.pages.404');
     }
