@@ -2,18 +2,20 @@
 
 **YL MVC Structure (PHP MVC)** is a pattern made in PHP used to implement user interfaces, data, and controlling logic. 
 
-It's built based on the combination of ideas from the Yii framework and Laravel framework (yl).
+It's built based on the combination of ideas from the **Yii framework** and **Laravel framework** (YL).
 
-# 1. Configuration requirements
+# Configuration requirements
 
-    - Version PHP 7.2 and above (latest - 8.1)
+    - PHP >= 8.0
     - OpenSSL PHP Extension
 
-# 2. Technology
+# Technology
 - Pure PHP language
 - Using MVC model
+- Using MariaDB/MySQL database
+- Webpack for compile Javascript modules and compile Sass/SCSS files to css
 
-# 3. Setup assets folder
+# Setup assets folder
 
 This Project is using webpack in order to compile Javascript modules and compile Sass/SCSS files to css. Run the following commands in the project's asset directory:
 
@@ -29,7 +31,7 @@ npm run build
 
 You need to change the connection information to the database if you want to store and use data for the website.
 
-Path: [`/config/database.php.example`](https://github.com/TanHongIT/yl-mvc-structure/tree/main/config)
+Path: [`/config/database.php.example`](https://github.com/tanhongit/yl-mvc-structure/tree/main/config)
 
 Copy the file `database.php.example` to `database.php` and edit the information in the file.
 

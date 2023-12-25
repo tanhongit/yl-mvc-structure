@@ -2,8 +2,8 @@
 
 class Controller
 {
-    public const VIEW_PATH = 'resources/views';
-    public const MODEL_PATH = 'app/Model';
+    protected const VIEW_PATH = 'resources' . DIRECTORY_SEPARATOR . 'views';
+    protected const MODEL_PATH = 'app' . DIRECTORY_SEPARATOR . 'Model';
 
     /**
      * Index
@@ -41,8 +41,8 @@ class Controller
             $$key = $value;
         }
 
-        $viewPathFile = self::VIEW_PATH . '/' . str_replace('.', '/',
-                $partialPath) . '.php';
+        $viewPathFile = self::VIEW_PATH . DIRECTORY_SEPARATOR
+            . str_replace('.', DIRECTORY_SEPARATOR, $partialPath) . '.php';
         require $viewPathFile;
     }
 
@@ -55,8 +55,8 @@ class Controller
      */
     protected function loadModel($modelPath): void
     {
-        $modelPathFile = self::MODEL_PATH . '/' . str_replace('.', '/',
-                $modelPath) . '.php';
+        $modelPathFile = self::MODEL_PATH . DIRECTORY_SEPARATOR
+            . str_replace('.', DIRECTORY_SEPARATOR, $modelPath) . '.php';
         require $modelPathFile;
     }
 

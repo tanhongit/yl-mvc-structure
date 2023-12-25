@@ -2,7 +2,7 @@
 
 class ProductModel extends BaseModel
 {
-    const TABLE = 'products';
+    public const TABLE = 'products'; // table name in database
 
     /**
      * @return array|null
@@ -17,7 +17,7 @@ class ProductModel extends BaseModel
      *
      * @return array|false|string[]|null
      */
-    public function findByID($id)
+    public function findByID($id): array|false|null
     {
         return $this->find(self::TABLE, $id);
     }
@@ -27,7 +27,7 @@ class ProductModel extends BaseModel
      *
      * @return array|false|null
      */
-    public function deleteByID($id)
+    public function deleteByID($id): false|array|null
     {
         return $this->delete(self::TABLE, $id);
     }

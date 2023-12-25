@@ -6,7 +6,7 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        $this->loadModel('CategoryModel');
+        $this->loadModel(CategoryModel::class);
         $this->categoryModel = new CategoryModel();
     }
 

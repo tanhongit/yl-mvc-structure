@@ -6,7 +6,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->loadModel('ProductModel');
+        $this->loadModel(ProductModel::class);
         $this->productModel = new ProductModel();
     }
 
@@ -42,9 +42,9 @@ class ProductController extends Controller
         );
         $this->productModel->store($data);
 
-        $this->renderView('frontend.products.store', array(
+        $this->renderView('frontend.products.store', [
             'data' => $data,
-        ));
+        ]);
     }
 
     public function update(): void
@@ -57,9 +57,7 @@ class ProductController extends Controller
         );
         $this->productModel->updateData($data);
 
-        $this->renderView('frontend.products.update', array(
-            'data' => $data,
-        ));
+        $this->renderView('frontend.products.update', compact('data'));
     }
 
     public function delete(): void

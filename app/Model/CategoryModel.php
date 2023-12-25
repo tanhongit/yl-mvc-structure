@@ -2,7 +2,7 @@
 
 class CategoryModel extends BaseModel
 {
-    public const TABLE = 'categories';
+    public const TABLE = 'categories'; // table name in database
 
     /**
      * @return array
