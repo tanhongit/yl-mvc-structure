@@ -15,12 +15,11 @@ class Database
      *
      * @return mysqli|null
      */
-    public function connect()
+    public function connect(): ?mysqli
     {
         // Create connection
         if (!$this->connection) {
-            $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD,
-                DB_NAME);
+            $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
             $this->connection->set_charset('utf8mb4');
         }
         return $this->connection;
@@ -29,9 +28,9 @@ class Database
     /**
      * @param $sql
      *
-     * @return bool|mysqli_result
+     * @return mysqli_result|bool
      */
-    public function _query($sql)
+    public function _query($sql): mysqli_result|bool
     {
         return mysqli_query($this->connectResult, $sql);
     }
@@ -43,7 +42,7 @@ class Database
      *
      * @return mixed
      */
-    public function select($sql)
+    public function select($sql): mixed
     {
         $sql->execute();
         return $sql->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -67,7 +66,8 @@ class Database
             . $options['order_by'] : '';
         $limit = isset($options['offset']) && isset($options['limit'])
             ? 'LIMIT ' . $options['offset'] . ',' . $options['limit'] : '';
-        $sql = "SELECT $select FROM `$table` $join $where $order_by $limit";
+        $sql = /** @lang text */
+            "SELECT $select FROM `$table` $join $where $order_by $limit";
         $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
         $data = array();
         if (mysqli_num_rows($query) > 0) {
@@ -91,7 +91,8 @@ class Database
     public function getRecordByID($table, $id, string $select = '*')
     {
         $id = intval($id);
-        $sql = "SELECT $select FROM `$table` WHERE id=$id";
+        $sql = /** @lang text */
+            "SELECT $select FROM `$table` WHERE id=$id";
         $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
         $data = null;
         if (mysqli_num_rows($query) > 0) {
@@ -118,13 +119,15 @@ class Database
         }
         $id = intval($data['id']);
         if ($id > 0) {
-            $sql = "UPDATE `$table` SET " . implode(',', $values) . " WHERE id=$id";
+            $sql = /** @lang text */
+                "UPDATE `$table` SET " . implode(',', $values)
+                . " WHERE id=$id";
         } else {
-            $sql = "INSERT INTO `$table` SET " . implode(',', $values);
+            $sql = /** @lang text */
+                "INSERT INTO `$table` SET " . implode(',', $values);
         }
-        $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
-        $id = ($id > 0) ? $id : mysqli_insert_id($this->connectResult);
-        return $id;
+        $this->_query($sql) or die(mysqli_error($this->connectResult));
+        return ($id > 0) ? $id : mysqli_insert_id($this->connectResult);
     }
 
     /**
@@ -140,7 +143,8 @@ class Database
         $record = $this->getRecordByID($table, $id);
 
         if ($record) {
-            $sql = "DELETE FROM `$table` WHERE id=$id";
+            $sql = /** @lang text */
+                "DELETE FROM `$table` WHERE id=$id";
             $this->_query($sql) or die(mysqli_error($this->connectResult));
         }
 

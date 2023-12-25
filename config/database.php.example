@@ -1,5 +1,9 @@
 <?php
-const DB_HOST = 'localhost';
+
+const DB_HOST = '127.0.0.1';
+const DB_PORT = 33016;
+
 const DB_USER = 'root';
-const DB_PASSWORD = '';
+const DB_PASSWORD = 'rootpassword';
+
 const DB_NAME = 'mvc-structure';

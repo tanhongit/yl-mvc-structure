@@ -2,15 +2,15 @@
 
 class CategoryController extends Controller
 {
-    private $categoryModel;
+    protected CategoryModel $categoryModel;
 
     public function __construct()
     {
-        $this->loadModel('CategoryModel');
+        $this->loadModel(CategoryModel::class);
         $this->categoryModel = new CategoryModel();
     }
 
-    public function index()
+    public function index(): void
     {
         $categories = array(
             1 => 'product 1',
@@ -33,7 +33,7 @@ class CategoryController extends Controller
         return __METHOD__;
     }
 
-    public function all()
+    public function all(): void
     {
         $this->renderView('frontend.products.all');
         var_dump($this->categoryModel->getAll());
