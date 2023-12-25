@@ -2,8 +2,9 @@ const path = require("path");
 const StylelintPlugin = require("stylelint-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 
-var config = {
+const config = {
     entry: {
         main: ["./css/style.css", "./js/main.js"],
         editor: {
@@ -51,15 +52,6 @@ var config = {
                 type: "asset/resource",
             },
             {
-                enforce: "pre",
-                test: /\.js$/,
-                exclude: [/node_modules/, /vendor/],
-                loader: "eslint-loader",
-                options: {
-                    fix: true,
-                },
-            },
-            {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: "babel-loader",
@@ -80,6 +72,11 @@ var config = {
             fix: true,
         }),
         new MiniCssExtractPlugin(),
+        new ESLintWebpackPlugin({
+            extensions: ["js"],
+            fix: true,
+            exclude: ["node_modules", "vendor"],
+        }),
     ],
 };
 module.exports = (env, argv) => {
