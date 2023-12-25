@@ -72,16 +72,4 @@ class BaseModel extends Model
     {
         return $this->getRecordByID($table, $id);
     }
-
-    /**
-     * Escape special characters in string
-     *
-     * @param $str
-     *
-     * @return string
-     */
-    public function escape($str): string
-    {
-        return mysqli_real_escape_string($this->connectResult, $str);
-    }
 }
