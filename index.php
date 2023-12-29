@@ -3,11 +3,11 @@
 session_start();
 
 // Require all PHP files from a directory
-$folderList = array(
+$folderList = [
     './config/',
     './app/Core/',
     './lib/',
-);
+];
 $gfgFolderList = ['Controller' => './app/Controller/'];
 
 foreach ($folderList as $folder) {
@@ -35,6 +35,7 @@ if (is_dir($gfgFolderList['Controller'])) {
         closedir($gfgDir);
     }
 }
+// ------------------------------------------------------------------------
 
 // Get Controller
 if (isset($_REQUEST['controller']) && '' != $_REQUEST['controller']) {
@@ -52,18 +53,22 @@ foreach ($gfgFolderList as $folder) {
         require $fileTemp;
     }
 }
+// ------------------------------------------------------------------------
 
 // Get Action
 if (isset($_REQUEST['action']) && '' != $_REQUEST['action']) {
     $actionParam = strtolower($_REQUEST['action']);
 }
 $actionName = $actionParam ?? 'Index';
+// ------------------------------------------------------------------------
+
 
 // 404 page for not found controller
 if (!class_exists($controllerName)) {
     $controllerName = 'Controller';
     $actionName = 'NotFound';
 }
+// ------------------------------------------------------------------------
 
 //Run
 $controllerObject = new $controllerName();

@@ -1,5 +1,23 @@
 RewriteEngine On
+
+# Redirect to HTTPS (uncomment the following lines if SSL is set up and you want to force HTTPS)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Base directory
+RewriteBase /
+
+# Redirect the root domain to a specific controller and action (if needed)
+# RewriteRule ^$ index.php?controller=home&action=index [L,QSA]
+
+# Skip existing files from rewriting
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([^/]+)/?$ index.php?controller=$1 [QSA,L]
-RewriteRule ^([a-zA-Z]*)/?([a-zA-Z]*)?/?([a-zA-Z0-9]*)?/?$ index.php?controller=$1&action=$2&id=$3 [NC,L]
+
+# Rewrite for clean URLs
+RewriteRule ^([a-zA-Z0-9_-]+)/?$ index.php?controller=$1&action=index [L,QSA]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/?$ index.php?controller=$1&action=$2 [L,QSA]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([0-9]+)/?$ index.php?controller=$1&action=$2&id=$3 [L,QSA]
+
+# Handle requests for the root URL
+RewriteRule ^$ index.php [L,QSA]
