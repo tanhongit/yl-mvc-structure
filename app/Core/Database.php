@@ -2,37 +2,78 @@
 
 class Database
 {
-    protected $connection = null;
-    public $connectResult;
+    protected ?mysqli $connection = null;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
-        $this->connectResult = $this->connect();
+        $this->connect();
     }
 
     /**
-     * Connection database
+     * Execute a SQL query using prepared statements.
      *
-     * @return mysqli|null
+     * @param string $sql The SQL query to execute.
+     * @param array $params The parameters to bind to the query.
+     *
+     * @return mysqli_stmt The prepared statement.
+     * @throws Exception
      */
-    public function connect(): ?mysqli
+    protected function executeQuery(string $sql, array $params = []): mysqli_stmt
     {
-        // Create connection
-        if (!$this->connection) {
+        $stmt = $this->connection->prepare($sql);
+
+        if (!$stmt) {
+            throw new Exception('Prepare error: ' . $this->connection->error);
+        }
+
+        if ($params) {
+            $stmt->bind_param(str_repeat('s', count($params)), ...$params);
+        }
+
+        if (!$stmt->execute()) {
+            throw new Exception('Execute error: ' . $stmt->error);
+        }
+
+        return $stmt;
+    }
+
+    /**
+     * Fetch data from the database using prepared statements.
+     *
+     * @param string $sql The SQL query to execute.
+     * @param array $params The parameters to bind to the query.
+     *
+     * @return array The fetched data.
+     * @throws Exception
+     */
+    public function fetchData(string $sql, array $params = []): array
+    {
+        $stmt = $this->executeQuery($sql, $params);
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $result;
+    }
+
+    /**
+     * Establish a database connection.
+     *
+     * @return void
+     * @throws Exception
+     */
+    protected function connect(): void
+    {
+        if ($this->connection === null) {
             $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
+
+            if ($this->connection->connect_error) {
+                throw new Exception('Connection error: ' . $this->connection->connect_error);
+            }
+
             $this->connection->set_charset('utf8mb4');
         }
-        return $this->connection;
-    }
-
-    /**
-     * @param $sql
-     *
-     * @return mysqli_result|bool
-     */
-    public function _query($sql): mysqli_result|bool
-    {
-        return mysqli_query($this->connectResult, $sql);
     }
 
     /**
@@ -54,9 +95,10 @@ class Database
      * @param $table
      * @param array $options
      *
-     * @return array|void
+     * @return array
+     * @throws Exception
      */
-    public function getByOptions($table, array $options = array())
+    public function getByOptions($table, array $options = []): array
     {
         $select = $options['select'] ?? '*';
         $where = isset($options['where']) ? 'WHERE ' . $options['where'] : '';
@@ -66,17 +108,15 @@ class Database
             . $options['order_by'] : '';
         $limit = isset($options['offset']) && isset($options['limit'])
             ? 'LIMIT ' . $options['offset'] . ',' . $options['limit'] : '';
+
         $sql = /** @lang text */
             "SELECT $select FROM `$table` $join $where $order_by $limit";
-        $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
-        $data = array();
-        if (mysqli_num_rows($query) > 0) {
-            while ($row = mysqli_fetch_assoc($query)) {
-                $data[] = $row;
-            }
-            mysqli_free_result($query);
-        }
-        return $data;
+
+        $query = $this->executeQuery($sql);
+        $result = $query->get_result()->fetch_all(MYSQLI_ASSOC);
+        $query->close();
+
+        return $result;
     }
 
     /**
@@ -86,48 +126,52 @@ class Database
      * @param $id
      * @param string $select
      *
-     * @return array|false|void|null
+     * @return array|false|null
+     * @throws Exception
      */
-    public function getRecordByID($table, $id, string $select = '*')
+    public function getRecordByID($table, $id, string $select = '*'): false|array|null
     {
         $id = intval($id);
         $sql = /** @lang text */
             "SELECT $select FROM `$table` WHERE id=$id";
-        $query = $this->_query($sql) or die(mysqli_error($this->connectResult));
-        $data = null;
-        if (mysqli_num_rows($query) > 0) {
-            $data = mysqli_fetch_assoc($query);
-            mysqli_free_result($query);
-        }
-        return $data;
+        $query = $this->executeQuery($sql);
+        $result = $query->get_result()->fetch_assoc();
+        $query->close();
+        return $result;
     }
 
     /**
      * Save data to table (insert, update)
      *
-     * @param $table
+     * @param string $table
      * @param array $data
      *
-     * @return int|string|void
+     * @return int|string
+     * @throws Exception
      */
-    public function save($table, array $data = array())
+    public function save(string $table, array $data): int|string
     {
-        $values = array();
-        foreach ($data as $key => $value) {
-            $value = mysqli_real_escape_string($this->connectResult, $value);
-            $values[] = "`$key`='$value'";
-        }
-        $id = intval($data['id']);
+        $id = intval($data['id'] ?? 0);
+        unset($data['id']);
+
+        $columns = array_keys($data);
         if ($id > 0) {
+            $sets = implode(', ', array_map(fn($col) => "`$col` = ?", $columns));
+            $params = array_values($data);
+            $params[] = $id;
             $sql = /** @lang text */
-                "UPDATE `$table` SET " . implode(',', $values)
-                . " WHERE id=$id";
+                "UPDATE `$table` SET $sets WHERE `id` = ?";
         } else {
+            $placeholders = implode(', ', array_fill(0, count($columns), '?'));
+            $params = array_values($data);
             $sql = /** @lang text */
-                "INSERT INTO `$table` SET " . implode(',', $values);
+                "INSERT INTO `$table` (`" . implode('`, `', $columns) . "`) VALUES ($placeholders)";
         }
-        $this->_query($sql) or die(mysqli_error($this->connectResult));
-        return ($id > 0) ? $id : mysqli_insert_id($this->connectResult);
+
+        $stmt = $this->executeQuery($sql, $params);
+        $stmt->close();
+
+        return $id > 0 ? $id : $this->connection->insert_id;
     }
 
     /**
@@ -136,16 +180,18 @@ class Database
      * @param $table
      * @param $id
      *
-     * @return array|false|void|null
+     * @return array|false|null
+     * @throws Exception
      */
-    public function destroy($table, $id)
+    public function destroy($table, $id): false|array|null
     {
         $record = $this->getRecordByID($table, $id);
 
         if ($record) {
             $sql = /** @lang text */
                 "DELETE FROM `$table` WHERE id=$id";
-            $this->_query($sql) or die(mysqli_error($this->connectResult));
+            $stmt = $this->executeQuery($sql, [$id]);
+            $stmt->close();
         }
 
         return $record;

@@ -22,15 +22,16 @@ class ProductController extends Controller
 
     public function all(): void
     {
-        $this->renderView('frontend.products.all');
-        var_dump($this->productModel->getAll());
+        $products = $this->productModel->getAll();
+        $this->renderView('frontend.products.all', compact('products'));
     }
 
     public function show(): void
     {
         $id = $_GET['id'] ?? 0;
-        $this->renderView('frontend.products.show');
-        var_dump($this->productModel->findByID($id));
+        $product = $this->productModel->findByID($id);
+
+        $this->renderView('frontend.products.show', compact('product'));
     }
 
     public function store(): void
@@ -50,7 +51,7 @@ class ProductController extends Controller
     public function update(): void
     {
         $data = array(
-            'id' => 2,
+            'id' => 4,
             'name' => 'product 2',
             'description' => 'product 2',
             'price' => 10
