@@ -33,20 +33,32 @@ You need to change the connection information to the database if you want to sto
 
 Path: [`/config/database.php.example`](https://github.com/tanhongit/yl-mvc-structure/tree/main/config)
 
-Copy the file `database.php.example` to `database.php` and edit the information in the file.
+Copy the file `database.php.example` to `database.php`.
 
-```php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
-define('DB_NAME', 'mvc-structure');
+```bash
+cd config
+cp database.php.example database.php
 ```
 
-# 5. Install and using ssl certificate
+Edit the file `database.php` and change the following lines with your database information:
 
-Using **mkcert** to create ssl certificate
+```php
+const DB_HOST = '127.0.0.1'; # this is ip of mysql in your local
+const DB_PORT = 3306; # this is port of mysql in your local
 
-### On Ubuntu
+const DB_USER = 'root';
+const DB_PASSWORD = 'rootpassword';
+
+const DB_NAME = 'mvc-structure';
+```
+
+# 5. Install and using ssl certificate (optional)
+
+Using **mkcert** to create ssl certificate for this project.
+
+### Install mkcert
+
+#### On Ubuntu
 
 ```shell
 sudo apt install libnss3-tools
@@ -63,6 +75,10 @@ Now that the mkcert utility is installed, run the command below to generate and 
 mkcert -install
 ```
 
+#### On other OS
+
+Please refer to the instructions at the following link: [https://github.com/FiloSottile/mkcert](https://github.com/FiloSottile/mkcert)
+
 ### Create ssl certificate for this project
 
 Run:
@@ -74,7 +90,7 @@ mkcert local.yl_mvc_structure.com
 
 ### Update configuration
 
-Setup conf file using Apache:
+Setup conf file if you are using Apache2:
 
 Change **local.yl_mvc_structure.com.conf** file (/apache2/sites-available/ to this)
 
@@ -116,16 +132,16 @@ Change **local.yl_mvc_structure.com.conf** file (/apache2/sites-available/ to th
 When done, you can test the website by opening the browser and typing the following URL:
 
 ```shell
-https://local.yl_mvc_structure.com
+http://localhost
 
-https://local.yl_mvc_structure.com/product
-https://local.yl_mvc_structure.com/product/all
-https://local.yl_mvc_structure.com/product/show/1
-https://local.yl_mvc_structure.com/category
+http://localhost/product
+http://localhost/product/all
+http://localhost/product/show/1
+http://localhost/category
 ...
 ```
 
-> **_Note_**: To could run the above URLs, you make sure your local or your host must be enabled the `mod_rewrite` module.
+> **_Note_**: If using Apache, make sure the `mod_rewrite` module is enabled.
 
 You can also use the following command to check if the module is enabled (for Apache on Ubuntu):
 
@@ -136,8 +152,8 @@ sudo a2enmod rewrite
 **If you can't enable the `mod_rewrite` module, you can use the following URL to run the project:**
 
 ```shell
-https://local.yl_mvc_structure.com/index.php?controller=product&action=index
-https://local.yl_mvc_structure.com/index.php?controller=product&action=all
-https://local.yl_mvc_structure.com/index.php?controller=product&action=show&id=1
-https://local.yl_mvc_structure.com/index.php?controller=category&action=index
+http://localhost/index.php?controller=product&action=index
+http://localhost/index.php?controller=product&action=all
+http://localhost/index.php?controller=product&action=show&id=1
+http://localhost/index.php?controller=category&action=index
 ```
